@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>report.html</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+
+</head>
+
+<body>
+
+[WARNING] Could not convert TeX math  \ddot{x} + 2\gamma \dot{x} + \omega^2x = 0, rendering as TeX
+[WARNING] Could not convert TeX math  \ddot{x} + \omega^2x = 0, rendering as TeX
+<h1 id="цель-работы">Цель работы</h1>
+<ol type="1">
+<li>Построить решение уравнения гармонического осциллятора без
+затухания</li>
+<li>Записать уравнение свободных колебаний гармонического осциллятора с
+затуханием, построить его решение. Построить фазовый портрет
+гармонических колебаний с затуханием.</li>
+<li>Записать уравнение колебаний гармонического осциллятора, если на
+систему действует внешняя сила, построить его решение. Построить фазовый
+портрет колебаний с действием внешней силы.</li>
+</ol>
+<h1 id="задание">Задание</h1>
+<p>Вариант № 52</p>
+<p>Построить фазовый портрет гармонического осциллятора и решение
+уравнения гармонического осциллятора для следующих случаев:</p>
+<ol type="1">
+<li><p>Колебания гармонического осциллятора без затуханий и без действий
+внешней силы</p></li>
+<li><p>Колебания гармонического осциллятора c затуханием и без действий
+внешней силы</p></li>
+<li><p>Колебания гармонического осциллятора c затуханием и под действием
+внешней силы</p></li>
+</ol>
+<p>На интервалеx <span class="math inline"><em>t</em> ∈ [0; 47]</span>
+(шаг 0.05) с начальными условиями <span
+class="math inline"><em>x</em><sub>0</sub> = 0.7, <em>y</em><sub>0</sub> = 0.7</span></p>
+<h1 id="выполнение-лабораторной-работы">Выполнение лабораторной
+работы</h1>
+<p>Уравнение свободных колебаний гармонического осциллятора имеет
+следующий вид:</p>
+<p><span class="math display">$$ \ddot{x} + 2\gamma \dot{x} + \omega^2x
+= 0$$</span></p>
+<h2
+id="колебания-гармонического-осциллятора-без-затуханий-и-без-действий-внешней-силы">Колебания
+гармонического осциллятора без затуханий и без действий внешней
+силы</h2>
+<p>Уравнение колебаний гармонического осциллятора без затуханий и без
+действий внешней силы имеет следующий вид:</p>
+<p><span class="math display">$$ \ddot{x} + \omega^2x = 0$$</span></p>
+<h2
+id="колебания-гармонического-осциллятора-c-затуханий-и-без-действий-внешней-силы">Колебания
+гармонического осциллятора c затуханий и без действий внешней силы</h2>
+<h2
+id="колебания-гармонического-осциллятора-с-затуханий-и-под-действием-внешней-силы">Колебания
+гармонического осциллятора с затуханий и под действием внешней силы</h2>
+<p>На рисунке <span class="citation"
+data-cites="fig:001">[-@fig:001]</span> изображен соответствующий
+график:</p>
+<figure id="fig:001">
+<img src="image/plot1.png" style="width:70.0%"
+alt="Модель боевых действий только с регулярными войсками в OpenModelica." />
+<figcaption aria-hidden="true">Модель боевых действий только с
+регулярными войсками в OpenModelica.</figcaption>
+</figure>
+<pre><code>2) Моделирование в `Julia`:
+ </code></pre>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode julia"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">DifferentialEquations</span>, <span class="bu">Plots;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">model1</span>(u, p, t)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    x, y <span class="op">=</span> u</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    a, b, c, h <span class="op">=</span> p</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    dx <span class="op">=</span> <span class="op">-</span>a<span class="op">*</span>x <span class="op">-</span> b<span class="op">*</span>y <span class="op">+</span> <span class="fu">abs</span>(<span class="fu">sin</span>(t<span class="op">+</span><span class="fl">1</span>))</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    dy <span class="op">=</span> <span class="op">-</span>c<span class="op">*</span>x <span class="op">-</span> h<span class="op">*</span>y <span class="op">+</span> <span class="fu">abs</span>(<span class="fu">cos</span>(t<span class="op">+</span><span class="fl">2</span>))</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [dx, dy]</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>u0 <span class="op">=</span> [<span class="fl">222000</span>, <span class="fl">229000</span>]</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># a,b,c,h</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>params_1 <span class="op">=</span> [<span class="fl">0.223</span>, <span class="fl">0.774</span>, <span class="fl">0.665</span>, <span class="fl">0.332</span>]</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> (<span class="fl">0</span>, <span class="fl">1</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>prob1 <span class="op">=</span> <span class="fu">ODEProblem</span>(model1, u0, t, params_1)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>sol_1 <span class="op">=</span> <span class="fu">solve</span>(prob1)</span></code></pre></div>
+<p>На рисунке <span class="citation"
+data-cites="fig:002">[-@fig:002]</span> изображен соответствующий
+график:</p>
+<figure id="fig:002">
+<img src="image/jl_plot1.png" style="width:70.0%"
+alt="Модель боевых действий только с регулярными войсками в Julia." />
+<figcaption aria-hidden="true">Модель боевых действий только с
+регулярными войсками в Julia.</figcaption>
+</figure>
+<h2
+id="модель-ведение-боевых-действий-с-участием-регулярных-войск-и-партизанских-отрядов">Модель
+ведение боевых действий с участием регулярных войск и партизанских
+отрядов</h2>
+<p>Базовая модель боевых действий с участием регулярных войск и
+партизанских отрядов была промоделирована в <code>OpenModelica</code> и
+<code>Julia</code>:</p>
+<pre><code>1) `OpenModelica`:</code></pre>
+<pre><code>model lab03_2 &quot;2) Модель боевых действий между регулярными войсками с участием партизанских отрядов. Вариант 52.&quot;
+  parameter Real a=0.291; // константа, хар-я степень влияния различных факторов на потери
+  parameter Real b=0.865; // эффективность боевых действий армии у 
+  parameter Real c=0.456; // эффективность боевых действий армии х 
+  parameter Real h=0.789; // константа, характеризующая степень влияния различных факторов на потери 
+  
+  // Начальные условия
+  parameter Real x0=222000; // численность первой армии
+  parameter Real y0=229000; // численность второй армии
+  
+  Real x(start=x0);
+  Real y(start=y0);
+  Real P;
+  Real Q; 
+equation
+  P = abs(sin(2*time));
+  Q = abs(cos(time));
+  der(x) = -a*x-b*y+P;
+  der(y) = -c*x*y-h*y+Q;
+end lab03_2;</code></pre>
+<p>На рисункax <span class="citation"
+data-cites="fig:003">[-@fig:003]</span> и <span class="citation"
+data-cites="fig:004">[-@fig:004]</span> изображены соответствующие
+графики:</p>
+<figure id="fig:003">
+<img src="image/plot2.png" style="width:70.0%"
+alt="Модель боевых действий с участием регулярных войск и партизанских отрядов в OpenModelica." />
+<figcaption aria-hidden="true">Модель боевых действий с участием
+регулярных войск и партизанских отрядов в OpenModelica.</figcaption>
+</figure>
+<figure id="fig:004">
+<img src="image/plot2_1ms.png" style="width:70.0%"
+alt="Модель боевых действий с участием регулярных войск и партизанских отрядов в OpenModelica (1 мс)." />
+<figcaption aria-hidden="true">Модель боевых действий с участием
+регулярных войск и партизанских отрядов в OpenModelica (1
+мс).</figcaption>
+</figure>
+<pre><code>2) `Julia`:</code></pre>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode julia"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">DifferentialEquations</span>, <span class="bu">Plots;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">model2</span>(u, p, t)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    x, y <span class="op">=</span> u</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    a, b, c, h <span class="op">=</span> p</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    dx <span class="op">=</span> <span class="op">-</span>a<span class="op">*</span>x <span class="op">-</span> b<span class="op">*</span>y <span class="op">+</span> <span class="fu">abs</span>(<span class="fu">sin</span>(<span class="fl">2</span><span class="op">*</span>t))</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    dy <span class="op">=</span> <span class="op">-</span>c<span class="op">*</span>x<span class="op">*</span>y <span class="op">-</span> h<span class="op">*</span>y <span class="op">+</span> <span class="fu">abs</span>(<span class="fu">cos</span>(t))</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [dx, dy]</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>u0 <span class="op">=</span> [<span class="fl">222000</span>, <span class="fl">229000</span>]</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co"># a,b,c,h</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>params_2 <span class="op">=</span> [<span class="fl">0.291</span>, <span class="fl">0.865</span>, <span class="fl">0.456</span>, <span class="fl">0.789</span>]</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> (<span class="fl">0</span>, <span class="fl">1</span>)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>prob2 <span class="op">=</span> <span class="fu">ODEProblem</span>(model2, u0, t, params_2)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>sol_2 <span class="op">=</span> <span class="fu">solve</span>(prob2)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="co"># на промежутке 1 мс</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>t_1  <span class="op">=</span> [<span class="fl">0</span>, <span class="fl">0.001</span>]</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>prob3 <span class="op">=</span> <span class="fu">ODEProblem</span>(model2, u0, t_1, params_2)</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>sol_3 <span class="op">=</span> <span class="fu">solve</span>(prob3)</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sol_3, label<span class="op">=</span>[<span class="st">&quot;Армия X&quot;</span> <span class="st">&quot;Армия Y&quot;</span>], xaxis<span class="op">=</span><span class="st">&quot;Время&quot;</span>, yaxis<span class="op">=</span><span class="st">&quot;Численность&quot;</span>, legend<span class="op">=:</span>right)</span></code></pre></div>
+<p>На рисункax <span class="citation"
+data-cites="fig:005">[-@fig:005]</span> и <span class="citation"
+data-cites="fig:006">[-@fig:006]</span> изображены соответствующие
+графики:</p>
+<figure id="fig:005">
+<img src="image/jl_plot2.png" style="width:70.0%"
+alt="Модель боевых действий с участием регулярных войск и партизанских отрядов в Julia." />
+<figcaption aria-hidden="true">Модель боевых действий с участием
+регулярных войск и партизанских отрядов в Julia.</figcaption>
+</figure>
+<figure id="fig:006">
+<img src="image/jl_plot2_1ms.png" style="width:70.0%"
+alt="Модель боевых действий с участием регулярных войск и партизанских отрядов в Julia (1 мс)." />
+<figcaption aria-hidden="true">Модель боевых действий с участием
+регулярных войск и партизанских отрядов в Julia (1 мс).</figcaption>
+</figure>
+<h1 id="выводы">Выводы</h1>
+<p>В резултьтате выполенения лабораторной работы познакомились с моделью
+боевых действий (модель Ланчестера) и попробовали смоделировать
+конкретные примеры.</p>
+
+</body>
+</html>
