@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="ru-RU">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Стариков Д. А.">
+  <title>Лабораторная работа №6</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/reset.css">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/reveal.css">
+  <style>
+    .reveal .sourceCode {  /* see #7635 */
+      overflow: visible;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/theme/beige.css" id="theme">
+  
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Лабораторная работа №6</h1>
+  <p class="subtitle">Модель эпидемии</p>
+  <p class="author">Стариков Д. А.</p>
+  <p class="institute">Российский университет дружбы народов, Москва,
+Россия</p>
+  <p class="date">03 мая 2025</p>
+</section>
+
+<section id="цель-работы" class="slide level2">
+<h2>Цель работы</h2>
+<p>Реализовать модель эпидемии в OpenModelica и Julia, построить графики
+зависимости числа особей из трех групп, рассмотреть 2 случая:</p>
+<ul>
+<li>если <span
+class="math inline"><em>I</em>(0) &gt; <em>I</em><sup>*</sup></span></li>
+<li>если <span
+class="math inline"><em>I</em>(0) ≤ <em>I</em><sup>*</sup></span></li>
+</ul>
+</section>
+<section id="задание" class="slide level2">
+<h2>Задание</h2>
+<p>Вариант 52.</p>
+<p>На одном острове вспыхнула эпидемия. Известно, что из всех
+проживающих на острове (N=9654) в момент начала эпидемии (t=0) число
+заболевших людей (являющихся распространителями инфекции) I(0)=100, А
+число здоровых людей с иммунитетом к болезни R(0)=20. Таким образом,
+число людей восприимчивых к болезни, но пока здоровых, в начальный
+момент времени S(0)=N-I(0)- R(0).</p>
+<p>Постройте графики изменения числа особей в каждой из трех групп.</p>
+<p>Рассмотрите, как будет протекать эпидемия в случае:</p>
+<ul>
+<li>если <span
+class="math inline"><em>I</em>(0) &gt; <em>I</em><sup>*</sup></span></li>
+<li>если <span
+class="math inline"><em>I</em>(0) ≤ <em>I</em><sup>*</sup></span></li>
+</ul>
+</section>
+<section id="моделирование-в-openmodelica" class="slide level2">
+<h2>Моделирование в OpenModelica</h2>
+<p>Модель эпидемии в <code>OpenModelica</code> реализована следующим
+образом:</p>
+<pre><code>model lab06 // SIR
+  parameter Real alpha=0.02;
+  parameter Real beta=0.01;
+  parameter Real I0=100;
+  parameter Real R0=20;
+  parameter Real S0=9654-I0-R0;
+  
+  Real S(start=S0);
+  Real I(start=I0);
+  Real R(start=R0);
+equation 
+  // случай I0 &gt; I*
+  //der(S) = -alpha*S;
+  //der(I) = alpha*S - beta*I;
+  // случай I0 &lt;= I*
+  der(S) = 0;
+  der(I) = -beta*I;
+  der(R) = beta*I;
+annotation(
+    experiment(StartTime = 0, StopTime = 700, Interval = 0.01));
+end lab06;</code></pre>
+</section>
+<section id="моделирование-в-openmodelica-1" class="slide level2">
+<h2>Моделирование в OpenModelica</h2>
+<ul>
+<li>Случай <span
+class="math inline"><em>I</em>(0) &gt; <em>I</em><sup>*</sup></span>:</li>
+</ul>
+<figure>
+<img data-src="image/om_1.png" id="fig:001" style="width:70.0%"
+alt="Изменение численности особей в разных группах (случай I(0) &gt; I^*)" />
+<figcaption aria-hidden="true">Изменение численности особей в разных
+группах (случай <span
+class="math inline"><em>I</em>(0) &gt; <em>I</em><sup>*</sup></span>)</figcaption>
+</figure>
+</section>
+<section id="моделирование-в-openmodelica-2" class="slide level2">
+<h2>Моделирование в OpenModelica</h2>
+<ul>
+<li>Случай <span
+class="math inline"><em>I</em>(0) ≤ <em>I</em><sup>*</sup></span>:</li>
+</ul>
+<figure>
+<img data-src="image/om_2.png" id="fig:002" style="width:70.0%"
+alt="Изменение численности особей в разных группах (случай I(0) \le I^*)" />
+<figcaption aria-hidden="true">Изменение численности особей в разных
+группах (случай <span
+class="math inline"><em>I</em>(0) ≤ <em>I</em><sup>*</sup></span>)</figcaption>
+</figure>
+</section>
+<section id="моделирование-в-julia" class="slide level2">
+<h2>Моделирование в Julia</h2>
+<p>Модель эпидемии в <code>Julia</code> реализована следующим
+образом:</p>
+<div class="columns">
+<div class="column">
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode julia"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">OrdinaryDiffEq</span>, <span class="bu">Plots</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">model1</span>(u, p, t)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># SIR with I0&gt;I*</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    S, I, R <span class="op">=</span> u</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    alpha, beta <span class="op">=</span> p</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    dS <span class="op">=</span> <span class="op">-</span>alpha<span class="op">*</span>S</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    dI <span class="op">=</span> alpha<span class="op">*</span>S<span class="op">-</span>beta<span class="op">*</span>I</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    dR <span class="op">=</span> beta<span class="op">*</span>I</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [dS, dI, dR]</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">model2</span>(u, p, t)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># SIR with I0&lt;=I*</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    S, I, R <span class="op">=</span> u</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    alpha, beta <span class="op">=</span> p</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    dS <span class="op">=</span> <span class="fl">0</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    dI <span class="op">=</span> <span class="op">-</span>beta<span class="op">*</span>I</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    dR <span class="op">=</span> beta<span class="op">*</span>I</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [dS, dI, dR]</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div>
+</div><div class="column">
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode julia"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>I0 <span class="op">=</span> <span class="fl">100</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>R0 <span class="op">=</span> <span class="fl">20</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>S0 <span class="op">=</span> <span class="fl">9654</span> <span class="op">-</span> I0 <span class="op">-</span> R0</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>u0 <span class="op">=</span> [S0, I0, R0]</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> [<span class="fl">0.01</span>, <span class="fl">0.02</span>]</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> (<span class="fl">0</span>,<span class="fl">700</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>prob1 <span class="op">=</span> <span class="fu">ODEProblem</span>(model1, u0, t, p)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>prob2 <span class="op">=</span> <span class="fu">ODEProblem</span>(model2, u0, t, p)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>sol1 <span class="op">=</span> <span class="fu">solve</span>(prob1)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>sol2 <span class="op">=</span> <span class="fu">solve</span>(prob2)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sol1, label<span class="op">=</span>[<span class="st">&quot;S&quot;</span> <span class="st">&quot;I&quot;</span> <span class="st">&quot;R&quot;</span>], xaxis<span class="op">=</span><span class="st">&quot;Время&quot;</span>, yaxis<span class="op">=</span><span class="st">&quot;Численность&quot;</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sol2, label<span class="op">=</span>[<span class="st">&quot;S&quot;</span> <span class="st">&quot;I&quot;</span> <span class="st">&quot;R&quot;</span>], xaxis<span class="op">=</span><span class="st">&quot;Время&quot;</span>, yaxis<span class="op">=</span><span class="st">&quot;Численность&quot;</span>)</span></code></pre></div>
+</div>
+</div>
+</section>
+<section id="моделирование-в-julia-1" class="slide level2">
+<h2>Моделирование в Julia</h2>
+<ul>
+<li>Случай <span
+class="math inline"><em>I</em>(0) &gt; <em>I</em><sup>*</sup></span>:</li>
+</ul>
+<figure>
+<img data-src="image/jl_1.png" id="fig:003" style="width:70.0%"
+alt="Изменение численности особей в разных группах (случай I(0) &gt; I^*)" />
+<figcaption aria-hidden="true">Изменение численности особей в разных
+группах (случай <span
+class="math inline"><em>I</em>(0) &gt; <em>I</em><sup>*</sup></span>)</figcaption>
+</figure>
+</section>
+<section id="моделирование-в-julia-2" class="slide level2">
+<h2>Моделирование в Julia</h2>
+<ul>
+<li>Случай <span
+class="math inline"><em>I</em>(0) ≤ <em>I</em><sup>*</sup></span>:</li>
+</ul>
+<figure>
+<img data-src="image/jl_2.png" id="fig:004" style="width:70.0%"
+alt="Изменение численности особей в разных группах (случай I(0) \le I^*)" />
+<figcaption aria-hidden="true">Изменение численности особей в разных
+группах (случай <span
+class="math inline"><em>I</em>(0) ≤ <em>I</em><sup>*</sup></span>)</figcaption>
+</figure>
+</section>
+<section id="выводы" class="slide level2">
+<h2>Выводы</h2>
+<ul>
+<li>В ходе выполнения лабораторной работы познакомились с моделью
+эпидемии (SIR) и на конкретном примере рассмотрели случаи, когда
+начальное число зараженных особей больше или меньше критического
+значения.</li>
+</ul>
+</section>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/reveal.js@^4//dist/reveal.js"></script>
+
+  <!-- reveal.js plugins -->
+  <script src="https://unpkg.com/reveal.js@^4//plugin/notes/notes.js"></script>
+  <script src="https://unpkg.com/reveal.js@^4//plugin/search/search.js"></script>
+  <script src="https://unpkg.com/reveal.js@^4//plugin/zoom/zoom.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: false,
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: false,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: true,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'fade',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // reveal.js plugins
+        plugins: [
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    </body>
+</html>
